@@ -6,8 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Alec Ghazarian <me@alec.pro> (https://alec.pro)",
+  "funding": {
+    "type" : "individual",
+    "url" : "https://bitclout.com/u/smartalec"
+  },
+  "license": "BSD-3-Clause",
   "dependencies": {
     "axios": "^0.21.1",
     "console-stamp": "^3.0.2",
