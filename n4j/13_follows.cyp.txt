@@ -1,0 +1,104 @@
+// follows
+// BROKEN
+// continue: repeat by replacing follow000000000000 with follow000000000001 - follow000000000009
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000000.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000001.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000002.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000003.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000004.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000005.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000006.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000007.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000008.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
+LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/follow000000000009.csv" AS value
+MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
+MATCH (r:Account) WHERE a.publicKey = value.followedPublicKey
+CREATE (a)-[z:FOLLOW {
+  Height: value.Height,
+  Index: value.Index,
+  TstampSecs: value.TstampSecs,
+  key: value.TransactionIDBase58Check
+}]->(r)
+;
