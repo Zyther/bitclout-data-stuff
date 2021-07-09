@@ -19,7 +19,8 @@ MATCH (c:CCoin) where c.publicKey = value.CreatorPublicKey
 CREATE (a)-[x:CCP_LOCK {
   Height: toInteger(value.Height),
   Index: toInteger(value.Index),
-  TstampSecs: toInteger(value.TstampSecs),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
 
   key: value.TransactionIDBase58Check + ":LOCK",
   CoinCostNanos: value.CoinCostNanos,
@@ -27,10 +28,11 @@ CREATE (a)-[x:CCP_LOCK {
 }]->(c)-[y:CCP_FR {
   Height: toInteger(value.Height),
   Index: toInteger(value.Index),
-  TstampSecs: toInteger(value.TstampSecs),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
 
   key: value.TransactionIDBase58Check + ":FR",
-  FRPercentage: value.FRPercentage,
-  FounderRewardNanos: value.FounderRewardNanos,
-  FounderRewardWhole: value.FounderRewardWhole
+  FRPercentage: toFloat(value.FRPercentage),
+  FounderRewardNanos: toInteger(value.FounderRewardNanos),
+  FounderRewardWhole: toFloat(value.FounderRewardWhole)
 }]->(b);

@@ -5,7 +5,8 @@ MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)<-[r:UNLIKE {
   Height: toInteger(value.Height),
   Index: toInteger(value.Index),
-  TstampSecs: toInteger(value.TstampSecs),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]-(p)
 ;

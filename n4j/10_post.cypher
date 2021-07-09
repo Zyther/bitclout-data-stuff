@@ -20,7 +20,8 @@ CREATE INDEX post_owner_key FOR (p:Post) on (p.ownerKey)
 // associate username to post
 MATCH (p:Post)
 MATCH (z:Account) WHERE z.publicKey = p.ownerKey
-SET p.ownerUsername = COALESCE(z.username, null);
+SET p.ownerUsername = COALESCE(z.username, null)
+;
 
 
 // load SUBMIT_POST relationship
@@ -30,7 +31,8 @@ MATCH (p:Post) WHERE p.key = value.postHex
 CREATE (a)-[b:SUBMIT_POST {
   Height: toInteger(value.Height),
   Index: toInteger(value.Index),
-  TstampSecs: toInteger(value.TstampSecs),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;

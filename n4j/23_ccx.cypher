@@ -11,6 +11,8 @@ CREATE (a)-[b:CREATOR_COIN_TRANSFER {
     Height: toInteger(value.Height),
     Index: toInteger(value.Index),
     blockStamp: toInteger(value.TstampSecs),
+    blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
+
     from: a.key,
     to: r.key
 }]->(r);

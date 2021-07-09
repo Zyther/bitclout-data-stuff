@@ -9,6 +9,10 @@ CREATE (a)-[b:PRIVATE_MESSAGE {
   Height: toInteger(value.Height),
   Index: toInteger(value.Index),
   PrivateMessageTimestamp: toInteger(value.PrivateMessageTimestamp),
+  PrivateMessageDateTime: datetime({epochMills:toInteger(value.PrivateMessageTimestamp)}),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)})
+
   from: a.key,
   to: r.key
 }]->(r)

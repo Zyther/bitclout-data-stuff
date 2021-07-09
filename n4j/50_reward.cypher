@@ -8,6 +8,8 @@ CREATE (a)-[b:BLOCK_REWARD {
     Height: toInteger(value.Height),
     Index: toInteger(value.Index),
     blockStamp: toInteger(value.TstampSecs),
+    blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
+
     to: r.key
 }]->(r)
 ;

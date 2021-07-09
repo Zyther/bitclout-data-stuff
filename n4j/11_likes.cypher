@@ -3,9 +3,11 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
+
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -14,9 +16,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -25,9 +28,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -36,9 +40,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -47,9 +52,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -58,9 +64,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -69,9 +76,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -80,9 +88,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -91,9 +100,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
@@ -102,9 +112,10 @@ LOAD CSV WITH HEADERS FROM "https://storage.googleapis.com/all_tx/2/like/like000
 MATCH (p:Post) WHERE p.key = value.postHex
 MATCH (a:Account) WHERE a.publicKey = value.TransactorPublicKeyBase58Check
 CREATE (a)-[r:LIKE {
-  Height: value.Height,
-  Index: value.Index,
-  TstampSecs: value.TstampSecs,
+  Height: toInteger(value.Height),
+  Index: toInteger(value.Index),
+  blockStamp: toInteger(value.TstampSecs),
+  blockDateTime: datetime({epochSeconds: toInteger(value.TstampSecs)}),
   key: value.TransactionIDBase58Check
 }]->(p)
 ;
