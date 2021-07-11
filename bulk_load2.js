@@ -293,7 +293,7 @@ function handleHugeJSONL(file, db) {
   try {
     const {DB_TYPE} = process.env;
 
-    if (DB_TYPE !== 'mssql' || DB_TYPE !== 'sqlite') {
+    if (DB_TYPE !== 'mssql' && DB_TYPE !== 'sqlite') {
       throw new Error("DB_TYPE must be mssql or sqlite. plz set accordingly.");
     }
     let dbOptions = {};
