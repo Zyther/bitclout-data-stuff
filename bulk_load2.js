@@ -6,6 +6,7 @@ const knex = require("knex").default;
 const es = require("event-stream");
 
 let zCount = 0;
+let gCount = 0;
 let zOutArrays = {
   TransactionHeader: [],
   TransactionInputs: [],
@@ -27,7 +28,7 @@ async function writeBatch(db) {
   let tableNames = Object.keys(zOutArrays);
   for (var tName of tableNames) {
     let reccs = zOutArrays[tName].splice(0, zOutArrays[tName].length);
-    await db.batchInsert(tName, reccs, 500);
+    await db.batchInsert(tName, reccs, 200);
   }
 }
 
@@ -35,8 +36,9 @@ async function parseSingle(line) {
  try {
   let j = JSON.parse(line);
   zCount++;
+  gCount++;
 
-  let TransactionHeaderId = zCount;
+  let TransactionHeaderId = gCount;
   
   let {
     TransactionIDBase58Check, 
@@ -71,7 +73,7 @@ async function parseSingle(line) {
     TransactionType,
     TransactionIndexInBlock: TxnIndexInBlock,
     TransactorPublicKeyBase58Check,
-    BlockHashHex
+    BlockHeight
   });
 
   if (Array.isArray(Inputs)) {
@@ -235,7 +237,7 @@ function handleHugeJSONL(file, db) {
   let zQueue = [];
   // let sqlRunning = false;
   let zInterval = setInterval(() => {
-    console.log(`${zCount} records processed.`);
+    console.log(`${zCount} records processed in ${file}. (${gCount} total processed.)`);
   }, 5000);
   return new Promise((ok,ko) => {
     

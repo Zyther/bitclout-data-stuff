@@ -67,7 +67,7 @@ const knex = require("knex").default;
         });
       }
     }
-    await db.batchInsert("Block", recArray, 500);
+    await db.batchInsert("Block", recArray, 200);
    
     console.log("destroying db instance");
     await db.destroy();

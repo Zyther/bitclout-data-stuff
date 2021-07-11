@@ -1,5 +1,5 @@
 CREATE TABLE [Block] (
-  [Height] int PRIMARY KEY,
+  [Height] bigint PRIMARY KEY,
   [Version] int,
   [BlockHashHex] varchar(64) UNIQUE NOT NULL,
   [BlockStamp] int NOT NULL,
@@ -13,7 +13,8 @@ CREATE TABLE [TransactionHeader] (
   [TransactionType] varchar(64) NOT NULL,
   [TransactionIndexInBlock] int NOT NULL,
   [TransactorPublicKeyBase58Check] varchar(64) NOT NULL,
-  [BlockHeight] varchar(64) NOT NULL REFERENCES Block(BlockHashHex)
+  [BlockHeight] bigint NOT NULL,
+  FOREIGN KEY(BlockHeight) REFERENCES Block(Height) ON DELETE CASCADE
 )
 ;
 
