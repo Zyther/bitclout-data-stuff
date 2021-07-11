@@ -5,23 +5,64 @@ const moment = require("moment");
 const knex = require("knex").default;
 (async () => {
   try {
-    console.log("connecting to DB...");
-    let {BLOCK_JSONL_FILE, SQLITE_PATH} = process.env;
-    let db = knex({
-      client: 'sqlite3', 
-      connection: {
-        filename: SQLITE_PATH
-      }, 
-      useNullAsDefault: true
-    });
+    // console.log("connecting to DB...");
+    // let {BLOCK_JSONL_FILE, SQLITE_PATH} = process.env;
+    // let db = knex({
+    //   client: 'sqlite3', 
+    //   connection: {
+    //     filename: SQLITE_PATH
+    //   }, 
+    //   useNullAsDefault: true
+    // });
     
-    console.log("connected to DB.");
+    // console.log("connected to DB.");
     // await db.raw(`SET TRANSACTION ISOLATION LEVEL OFF`);
     // db.raw(`SET TRANSACTION ISOLATION LEVEL read committed snapshot`)
+
+    const {DB_TYPE, BLOCK_JSONL_FILE} = process.env;
 
     if ( BLOCK_JSONL_FILE == '' ) {
       throw new Error("need BLOCK_JSONL_FILE")
     }
+    if (DB_TYPE !== 'mssql' || DB_TYPE !== 'sqlite') {
+      throw new Error("DB_TYPE must be mssql or sqlite. plz set accordingly.");
+    }
+    let dbOptions = {};
+    if (DB_TYPE == 'mssql') {
+      const {MSSQL_HOST, MSSQL_DB, MSSQL_USER, MSSQL_PASS, MSSQL_PORT = 1433 } = process.env;
+      dbOptions = {
+        client: 'mssql', 
+        connection: {
+          host: MSSQL_HOST,
+          user: MSSQL_USER,
+          password: MSSQL_PASS,
+          options: {
+            encrypt: true,
+            database: MSSQL_DB,
+            port: MSSQL_PORT
+          }
+        }, 
+      };
+    } else {
+      const {SQLITE_PATH} = process.env;
+      dbOptions = {
+        client: 'sqlite3', 
+        connection: {
+          filename: SQLITE_PATH
+        }, 
+        useNullAsDefault: true
+      };
+    }
+
+    if (typeof dbOptions.client !== 'string') {
+      throw new Error("something's gone wrong, db options weren't set right.");
+    }
+
+    console.log(`connecting to ${DB_TYPE}...`);
+    let db = knex(dbOptions);
+    console.log("connected to DB.");
+
+    
     let bFile = await fs.readFile(BLOCK_JSONL_FILE);
     let sFile = bFile.toString('utf-8').split("\n");
     // let jFile = JSON.parse(sFile)

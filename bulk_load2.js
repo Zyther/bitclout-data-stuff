@@ -22,6 +22,7 @@ let zOutArrays = {
   TransactionMetaUpdateProfile: [],
   TransactionMetaSwap: []
 }
+let zBlocks = {};
 async function writeBatch(db) {
   let tableNames = Object.keys(zOutArrays);
   for (var tName of tableNames) {
@@ -34,6 +35,8 @@ async function parseSingle(line) {
  try {
   let j = JSON.parse(line);
   zCount++;
+
+  let TransactionHeaderId = zCount;
   
   let {
     TransactionIDBase58Check, 
@@ -59,8 +62,11 @@ async function parseSingle(line) {
     UpdateProfileTxindexMetadata = null
   } = TransactionMetadata;
 
+  let BlockHeight = zBlocks[BlockHashHex];
+
   // to individual arrays
   zOutArrays.TransactionHeader.push({
+    Id: TransactionHeaderId,
     TransactionIDBase58Check,
     TransactionType,
     TransactionIndexInBlock: TxnIndexInBlock,
@@ -71,7 +77,7 @@ async function parseSingle(line) {
   if (Array.isArray(Inputs)) {
     for (var i=0; i < Inputs.length; i++) {
       zOutArrays.TransactionInputs.push({
-        RefTransactionIDBase58Check: TransactionIDBase58Check,
+        TransactionHeaderId,
         ArrayIndex: i,
         TransactionIDBase58Check: Inputs[i].TransactionIDBase58Check,
         Index: Inputs[i].Index
@@ -81,7 +87,7 @@ async function parseSingle(line) {
   if (Array.isArray(Outputs)) {
     for (var i=0; i < Outputs.length; i++) {
       zOutArrays.TransactionOutputs.push({
-        RefTransactionIDBase58Check: TransactionIDBase58Check,
+        TransactionHeaderId,
         ArrayIndex: i,
         PublicKeyBase58Check: Outputs[i].PublicKeyBase58Check,
         Index: Outputs[i].Index,
@@ -93,7 +99,7 @@ async function parseSingle(line) {
   if (Array.isArray(AffectedPublicKeys)) {
     for (var i=0; i < AffectedPublicKeys.length; i++) {
       zOutArrays.TransactionAffectedKeys.push({
-        RefTransactionIDBase58Check: TransactionIDBase58Check,
+        TransactionHeaderId,
         ArrayIndex: i,
         PublicKeyBase58Check: AffectedPublicKeys[i].PublicKeyBase58Check,
         Metadata: AffectedPublicKeys[i].Metadata
@@ -104,7 +110,7 @@ async function parseSingle(line) {
   if (BasicTransferTxindexMetadata !== null) {
     let {TotalInputNanos, TotalOutputNanos, FeeNanos} = BasicTransferTxindexMetadata;
     zOutArrays.TransactionMetaBasic.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       TotalInputNanos, TotalOutputNanos, FeeNanos
     });
   }
@@ -120,7 +126,7 @@ async function parseSingle(line) {
     } = BitcoinExchangeTxindexMetadata;
     
     zOutArrays.TransactionMetaBitcoinExchange.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       BitcoinSpendAddress, SatoshisBurned, NanosCreated, TotalNanosPurchasedBefore, TotalNanosPurchasedAfter, BitcoinTxnHash
     }); 
   }
@@ -133,7 +139,7 @@ async function parseSingle(line) {
       BitCloutToAddNanos
     } = CreatorCoinTxindexMetadata;
     zOutArrays.TransactionMetaCreator.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       OperationType, BitCloutToSellNanos, CreatorCoinToSellNanos, BitCloutToAddNanos
     });
   }
@@ -146,7 +152,7 @@ async function parseSingle(line) {
       PostHashHex
     } = CreatorCoinTransferTxindexMetadata;
     zOutArrays.TransactionMetaCreatorTransfer.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       CreatorUsername, CreatorCoinToTransferNanos, DiamondLevel, PostHashHex
     });
   }
@@ -155,7 +161,7 @@ async function parseSingle(line) {
     let {IsUnfollow = null} = FollowTxindexMetadata;
     let isUnfollow = IsUnfollow == false || IsUnfollow == null ? 0 : 1;
     zOutArrays.TransactionMetaFollow.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       IsUnfollow: isUnfollow
     });
   }
@@ -164,7 +170,7 @@ async function parseSingle(line) {
     let {IsUnlike = null, PostHashHex} = LikeTxindexMetadata;
     let isUnlike = IsUnlike == false || IsUnlike == null ? 0 : 1;
     zOutArrays.TransactionMetaLike.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       PostHashHex,
       isUnlike
     });
@@ -175,14 +181,14 @@ async function parseSingle(line) {
       PostHashBeingModifiedHex, ParentPostHashHex
     } = SubmitPostTxindexMetadata;
     zOutArrays.TransactionMetaPost.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       PostHashBeingModifiedHex, ParentPostHashHex
     });
   }
 
   if (PrivateMessageTxindexMetadata !== null) {
     zOutArrays.TransactionMetaPrivateMessage.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       TimestampNanos: PrivateMessageTxindexMetadata.TimestampNanos
     });
   }
@@ -190,7 +196,7 @@ async function parseSingle(line) {
   if (UpdateProfileTxindexMetadata !== null) {
     let { NewUsername, NewCreatorBasisPoints, NewStakeMultipleBasisPoints, IsHidden } = UpdateProfileTxindexMetadata;
     zOutArrays.TransactionMetaUpdateProfile.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       NewUsername, NewCreatorBasisPoints, NewStakeMultipleBasisPoints, IsHidden
     });
 
@@ -199,7 +205,7 @@ async function parseSingle(line) {
   if (SwapIdentityTxindexMetadata !== null) {
     let {FromPublicKeyBase58Check, ToPublicKeyBase58Check} = SwapIdentityTxindexMetadata;
     zOutArrays.TransactionMetaSwap.push({
-      RefTransactionIDBase58Check: TransactionIDBase58Check,
+      TransactionHeaderId,
       FromPublicKeyBase58Check, ToPublicKeyBase58Check
     });
   }
@@ -285,18 +291,50 @@ function handleHugeJSONL(file, db) {
 
 (async () => {
   try {
-    console.log("connecting to sqlite...");
-    let {ARCHIVE_IMPORT_PATH, ARCHIVE_COMPLETE_PATH, SQLITE_PATH} = process.env;
+    const {DB_TYPE} = process.env;
 
-    let db = knex({
-      client: 'sqlite3', 
-      connection: {
-        filename: SQLITE_PATH
-      }, 
-      useNullAsDefault: true
-    });
+    if (DB_TYPE !== 'mssql' || DB_TYPE !== 'sqlite') {
+      throw new Error("DB_TYPE must be mssql or sqlite. plz set accordingly.");
+    }
+    let dbOptions = {};
+    if (DB_TYPE == 'mssql') {
+      const {MSSQL_HOST, MSSQL_DB, MSSQL_USER, MSSQL_PASS, MSSQL_PORT = 1433 } = process.env;
+      dbOptions = {
+        client: 'mssql', 
+        connection: {
+          host: MSSQL_HOST,
+          user: MSSQL_USER,
+          password: MSSQL_PASS,
+          options: {
+            encrypt: true,
+            database: MSSQL_DB,
+            port: MSSQL_PORT
+          }
+        }, 
+      };
+    } else {
+      const {SQLITE_PATH} = process.env;
+      dbOptions = {
+        client: 'sqlite3', 
+        connection: {
+          filename: SQLITE_PATH
+        }, 
+        useNullAsDefault: true
+      };
+    }
+
+    if (typeof dbOptions.client !== 'string') {
+      throw new Error("something's gone wrong, db options weren't set right.");
+    }
+
+
     
+    console.log(`connecting to ${DB_TYPE}...`);
+    let db = knex(dbOptions);
     console.log("connected to DB.");
+
+
+    const {ARCHIVE_IMPORT_PATH, ARCHIVE_COMPLETE_PATH} = process.env;
 
     if (ARCHIVE_COMPLETE_PATH == "" || ARCHIVE_IMPORT_PATH == "" ) {
       throw new Error("need ARCHIVE_IMPORT_PATH and ARCHIVE_COMPLETE_PATH")
@@ -306,6 +344,14 @@ function handleHugeJSONL(file, db) {
 
     console.log(allFiles);
 
+    console.log("getting all blox from db");
+
+    let allBlockHashHexes = await db.select(['Height', 'BlockHashHex']).from('Block');
+    
+    for (var blok of allBlockHashHexes) {
+      zBlocks[blok.BlockHashHex] = blok.Height;
+    }
+    
     for (var file of allFiles) {
       let isFound = false;
       for (var f of allArchiveFiles) {

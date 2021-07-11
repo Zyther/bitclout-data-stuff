@@ -18,7 +18,7 @@ USE THIS REPO WITH CAUTION, WIP
 
 
 
-### loading sqlite db
+### loading sqlite (or mssql) db
 
 * GET JSONLs FIRST!
 * `node bulk_load_block.js` first
@@ -27,7 +27,7 @@ USE THIS REPO WITH CAUTION, WIP
 ## TODO
 
 * how to's
-* sqlite => n4j
+* sqlite/mssql => n4j
 * mssql graph
 * sqlite => elastic
 * update script
